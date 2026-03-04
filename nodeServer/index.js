@@ -7,7 +7,7 @@ const path = require("path");
 const app = express();
 app.use(cors());
 
-// ✅ Frontend serve karega (index.html same folder me hona chahiye)
+// ✅ Serve static files from the current folder (CSS folder included)
 app.use(express.static(__dirname));
 
 const server = http.createServer(app);
@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
   });
 });
 
-// ✅ Root route (jab koi site open kare)
+// ✅ Serve index.html at root
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
