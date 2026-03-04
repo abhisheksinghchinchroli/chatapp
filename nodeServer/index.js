@@ -2,9 +2,13 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 app.use(cors());
+
+// ✅ Frontend serve karega (index.html same folder me hona chahiye)
+app.use(express.static(__dirname));
 
 const server = http.createServer(app);
 
@@ -36,6 +40,11 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("left", users[socket.id]);
     delete users[socket.id];
   });
+});
+
+// ✅ Root route (jab koi site open kare)
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 const PORT = process.env.PORT || 8000;
